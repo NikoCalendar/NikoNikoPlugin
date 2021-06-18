@@ -1,7 +1,7 @@
-// Control de errores
 try {
 
   self.importScripts('firebase/firebase-app.js', 'firebase/firebase-database.js');
+
 
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -21,19 +21,75 @@ try {
   var database = firebase.database();
 
   chrome.runtime.onMessage.addListener((msg, sender, resp) => {
-    if (msg.command == "save") {
-      var domain = msg.data.domain;
-      firebase.database().ref('test/' + domain.replace(/\./g,'')).set({
-        operacion: "save",
-        concepto: "prueba",
-        objetoRecuperado: "Dominio de la pagina donde se ejecuto la funcion: " + domain
-      })
-      resp({ type: "result", status: "success", request: msg });
+    //obtiene el id de un usuario 
+    if (msg.command == "gitTest") {
+
+      var url = 'https://api.github.com/users/migmogcam';
+      var data = { username: 'example' };
+
+      fetch(url, {
+        method: 'GET', // or 'PUT'
+        // body: JSON.stringify(data), // data can be `string` or {object}!
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Success:', response.id));
+
     }
+    //Obtiene usuarios de un repo con autenticacion
+    if (msg.command == "gitTestWithAut") {
+      var domain = msg.data.domain;
+      var url = 'https://api.github.com/repos' + domain + '/collaborators';
+      var data = { username: 'example' };
+      peticionUsuariosYSave(url, domain).then(resp);
+      return true;
+    }
+
   }
-  )
+  );
 
+  async function peticionUsuariosYSave(url, domain) {
+    var respuesta;
+    await fetch(url, {
+      method: 'GET', // or 'PUT'
+      // body: JSON.stringify(data), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'token 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'
+      }
+    }).then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => respuesta = response);
+    respuesta.forEach(element => {
+      var usuario = element.login;
+      var repositorio = domain.split("/");
+      firebase.database().ref("repositorios/" + repositorio[repositorio.length - 1] + "/" + usuario).set({
+        activo: true
+      }
+      );
+      firebase.database().ref("usuarios/" + usuario).set(
+        {
+          idGit: element.id
+        }
+      );
 
+      var curr = new Date; // get current date
+      var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+      var last = first + 6; // last day is the first day + 6
+
+      var firstday = new Date(curr.setDate(first+1));
+      var lastday = new Date(curr.setDate(last+1));
+
+      firebase.database().ref("semanas/"+ repositorio[repositorio.length - 1]+"/D" + firstday.getDate()+"-"+lastday.getDate()+"M"+firstday.getMonth()+"Y"+firstday.getFullYear()).set(
+        {
+          activo: true
+        }
+      );
+    });
+    return respuesta;
+  }
 
 } catch (e) {
   console.log(e);
