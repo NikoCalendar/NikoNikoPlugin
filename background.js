@@ -57,7 +57,7 @@ try {
       // body: JSON.stringify(data), // data can be `string` or {object}!
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'token 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'
+        'Authorization': 'token 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'
       }
     }).then(res => res.json())
       .catch(error => console.error('Error:', error))
@@ -82,11 +82,27 @@ try {
       var firstday = new Date(curr.setDate(first+1));
       var lastday = new Date(curr.setDate(last+1));
 
-      firebase.database().ref("semanas/"+ repositorio[repositorio.length - 1]+"/D" + firstday.getDate()+"-"+lastday.getDate()+"M"+firstday.getMonth()+"Y"+firstday.getFullYear()).set(
+      var semana = "D" + firstday.getDate()+"-"+lastday.getDate()+"M"+firstday.getMonth()+"Y"+firstday.getFullYear();
+
+      firebase.database().ref("semanas/"+ repositorio[repositorio.length - 1]+"/" + semana).set(
+        {
+          lunes: true,
+          martes: true,
+          miercoles: true,
+          jueves: true,
+          viernes: true,
+        }
+      );
+
+      //Como calcular el sprint¿
+      var sprint = 1;
+
+      firebase.database().ref("sprint/"+ repositorio[repositorio.length - 1]+"/"+sprint+"/"+semana).set(
         {
           activo: true
         }
       );
+
     });
     return respuesta;
   }
