@@ -6,9 +6,8 @@
     "background": {
       "service_worker": "background.js"
     },
-    "permissions": ["activeTab", "scripting", "<all_urls>", "tabs"],
+    "permissions": ["activeTab", "scripting", "tabs"],
     "host_permissions": ["<all_urls>"],
-    
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
@@ -23,5 +22,14 @@
       "32": "/images/get_started32.png",
       "48": "/images/get_started48.png",
       "128": "/images/get_started128.png"
-    }
+    },
+    "content_scripts": [{
+      "css": ["main.css"],
+      "js": ["injectTable.js"],
+      "matches": ["https://github.com/*"]
+    }],
+    "web_accessible_resources": [{ 
+      "resources": ["layout.html","injectButton.html"],
+      "matches": ["<all_urls>"]
+    }]
  }
