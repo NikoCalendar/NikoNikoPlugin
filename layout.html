@@ -2,25 +2,30 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-    <div class="mainBox">
+    <div id="mainBox" class="mainBox">
         <div class="col-9 mainTableBox">
             <div style="overflow-x:auto;">
                 <table class="table mainTable">
                     <thead>
                         <tr>
                             <th>Miembros</th>
-                            <th>Lunes</th>
-                            <th>Martes</th>
-                            <th>Mi&eacute;rcoles</th>
-                            <th>Jueves</th>
-                            <th>Viernes</th>
-                            <th>Sabado</th>
-                            <th>Domingo</th>
+                            <th id="lunes">Lunes <input class="form-check-label" type="checkbox" id="c1" name="c1"
+                                    value="c1" checked></th>
+                            <th id="martes">Martes <input class="form-check-label" type="checkbox" id="c2" name="c2"
+                                    value="c2" checked> </th>
+                            <th id="miercoles">Mi&eacute;rcoles <input class="form-check-label" type="checkbox" id="c3"
+                                    name="c3" value="c3" checked></th>
+                            <th id="jueves">Jueves <input class="form-check-label" type="checkbox" id="c4" name="c4"
+                                    value="c4" checked></th>
+                            <th id="viernes">Viernes <input class="form-check-label" type="checkbox" id="c5" name="c5"
+                                    value="c5" checked></th>
+                            <th id="sabado">Sabado <input class="form-check-label" type="checkbox" id="c6" name="c6"
+                                    value="c6" checked></th>
+                            <th id="domingo">Domingo <input class="form-check-label" type="checkbox" id="c7" name="c7"
+                                    value="c7" checked></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,25 +35,107 @@
         </div>
         <div class="col-3 formulario">
             <form>
-                <fieldset class="fildsetForm">
-                    <legend>Propiedades:</legend>
-                    <select id="selectSprint">
-                        <option value="null">Sprint</option>
+                <fieldset class="scheduler-border fildsetForm">
 
-                    </select>
-                    <select id="selectSemana">
-                        <option value="null">Semana</option>
-
-                    </select>
+                    <legend class="scheduler-border">Propiedades:</legend>
+                    <div class="form-group">
+                        <select class="form-select" id="selectSprint">
+                            <option value="null">Sprint</option>
+                        </select>
+                        <select class="form-select" id="selectSemana">
+                            <option value="null">Semana</option>
+                        </select>
+                    </div>
                     <div>
                         <p class="semana"></p>
 
-                        <p class="sprint">Sprint: -</p>
+                        <p class="sprint">Sprint: 1</p>
                     </div>
-                    <input type="button" value="Definir Calendario¿?" />
+                    <input id="definirSprint" class="btn btn-primary" type="button" value="Definir Sprint" />
+                    <input id="estSprint" class="btn btn-primary" type="button" value="Estadisticas Sprint" />
+                    <input id="estGlobales" disabled class="btn btn-primary" type="button"
+                        value="Estadisticas Globales" />
                 </fieldset>
             </form>
         </div>
+    </div>
+    <div class="container" id="formularioParaSprint" style="display: none;">
+        <div class="col-4 mx-auto">
+            <form id="formularioSprint" class="formularioSprint">
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Formulario para Sprints</legend>
+                    <div class="form-group">
+                        <label for="fsprint">Número de sprint:</label><br>
+                        <input class="form-control" type="number" id="fsprint" name="fsprint" value=""
+                            placeholder="Sprint"><br>
+                    </div>
+                    <div class="form-group">
+                        <label for="fduracion">Duración:</label><br>
+                        <input type="number" class="form-control" id="fduracion" name="fduracion" value=""
+                            placeholder="Duración en semanas"><br><br>
+                    </div>
+                    <input id="submitForm" type="button" class="btn btn-primary" value="Aceptar">
+                    <input id="cancelar" class="btn btn-primary" type="button" value="Cancelar">
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="pantallaEst" style="display: none;">
+        <div class="col-8 mx-auto">
+            <br>
+            <h2>Estadisticas</h2>
+            <br>
+            <br>
+            <span>Moda:</span>
+            <br>
+            <br>
+            <span>Media:</span>
+            <br>
+            <br>
+            <span>Icono más usado:</span>
+            <br>
+            <br>
+            <br>
+            <br>
+            <input id="atrasE" class="btn btn-primary" type="button" value="Atras">
+            
+        </div>
+    </div> 
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <p>Some text in the Modal..</p>
+            <!-- Trigger/Open The Modal -->
+            <form id="formularioImputar" class="formularioImputar">
+                <div class="row">
+                    <div class="col">
+                        <input class="form-check-label" type="radio" id="icon1" name="inlineRadioOptions" value="icon1"
+                            checked><img src="" alt="Smile" id="smile" width="50" height="50">
+                    </div>
+                    <div class="col">
+                        <input class="form-check-label" type="radio" id="icon2" name="inlineRadioOptions"
+                            value="icon2"><img src="" alt="Sad" id="sad" width="50" height="50">
+                    </div>
+                    <div class="col">
+                        <input class="form-check-label" type="radio" id="icon3" name="inlineRadioOptions"
+                            value="icon3"><img src="" alt="Meh" id="meh" width="50" height="50">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Textarea1">Descripción</label>
+                    <textarea class="form-control" id="Textarea1" rows="2"></textarea>
+                </div>
+                <input id="aceptarInputacion" class="btn btn-primary" type="button" value="Aceptar">
+                <input id="cancelarInputacion" class="btn btn-primary" type="button" value="Cancelar">
+            </form>
+
+        </div>
+
     </div>
 
     <script type="text/javascript" src="js/jquery-3.3.1.slim.min.js"></script>
