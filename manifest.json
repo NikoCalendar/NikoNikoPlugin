@@ -1,12 +1,12 @@
 {
     "name": "NikoCalendar",
-    "description": "Proyecto base",
+    "description": "Proyecto NikoCalendar para Github",
     "version": "0.0.1",
     "manifest_version": 3,
     "background": {
       "service_worker": "background.js"
     },
-    "permissions": ["activeTab", "scripting", "tabs"],
+    "permissions": ["activeTab", "scripting", "tabs", "storage"],
     "host_permissions": ["<all_urls>"],
     "action": {
       "default_popup": "popup.html",
@@ -24,12 +24,12 @@
       "128": "/images/get_started128.png"
     },
     "content_scripts": [{
-      "css": ["main.css"],
-      "js": ["injectTable.js"],
+      "css": ["main.css", "css/bootstrap.min.css"],
+      "js": ["injectTable.js", "js/bootstrap.min.js", "js/popper.min.js", "js/jquery-3.3.1.slim.min.js"],
       "matches": ["https://github.com/*"]
     }],
     "web_accessible_resources": [{ 
-      "resources": ["layout.html","injectButton.html"],
+      "resources": ["layout.html","injectButton.html", "main.css", "css/bootstrap.min.css", "images/smile-beam-regular.svg", "images/meh-regular.svg", "images/frown-open-regular.svg"],
       "matches": ["<all_urls>"]
     }]
  }
