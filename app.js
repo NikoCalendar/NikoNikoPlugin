@@ -1,14 +1,17 @@
 // When the button is clicked, inject setPageBackgroundColor into current page
-testbutoon.addEventListener("click", async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  var url = new URL(tab.url)
-  var repoUser = url.pathname
-  writeData(repoUser);
+keyButton.addEventListener("click", async () => {
+  var key = document.getElementById('key');
+  chrome.storage.sync.set({ key: key.value }, function () {
+    console.log('Value is set to ' +  key.value);
+
+  });
+  chrome.storage.local.set({key: key.value}, function() {
+    console.log('Value is set to ' + key.value);
+    var mensage = document.getElementById('mensage');
+    mensage.innerHTML = 'Key guardada';
+  });
 });
 
-function writeData(domain) {
-  chrome.runtime.sendMessage({ command: "gitTestWithAut", data: { domain: domain } }, (response) => {
-    if (response.status == 'success') {
-      console.log(response);
-    }});
-}
+github.addEventListener("click", async (tab) => {
+  chrome.tabs.update({ url: "https://github.com/settings/tokens" });
+})

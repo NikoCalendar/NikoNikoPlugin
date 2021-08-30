@@ -8,7 +8,17 @@
     <div id="mainBox" class="mainBox">
         <div class="col-9 mainTableBox">
             <div style="overflow-x:auto;">
-                <table class="table mainTable">
+                <table id="tableMain" class="table mainTable">
+                    <colgroup>
+                        <col id="col" />
+                        <col id="col1" />
+                        <col id="col2" />
+                        <col id="col3" />
+                        <col id="col4" />
+                        <col id="col5" />
+                        <col id="col6" />
+                        <col id="col7" />
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>Miembros</th>
@@ -47,13 +57,14 @@
                         </select>
                     </div>
                     <div>
-                        <p class="semana"></p>
+                        <p id="semana" class="semana"></p>
 
-                        <p class="sprint">Sprint: 1</p>
+                        <p id="sprint" class="sprint"></p>
                     </div>
+                    <input id="myBtn" class="btn btn-primary" type="button" value="Imputar" /><br>
                     <input id="definirSprint" class="btn btn-primary" type="button" value="Definir Sprint" />
                     <input id="estSprint" class="btn btn-primary" type="button" value="Estadisticas Sprint" />
-                    <input id="estGlobales" disabled class="btn btn-primary" type="button"
+                    <input id="estGlobales" class="btn btn-primary" type="button"
                         value="Estadisticas Globales" />
                 </fieldset>
             </form>
@@ -67,7 +78,7 @@
                     <div class="form-group">
                         <label for="fsprint">Número de sprint:</label><br>
                         <input class="form-control" type="number" id="fsprint" name="fsprint" value=""
-                            placeholder="Sprint"><br>
+                            placeholder="Sprint" min="1"><br>
                     </div>
                     <div class="form-group">
                         <label for="fduracion">Duración:</label><br>
@@ -84,31 +95,75 @@
     <div class="container" id="pantallaEst" style="display: none;">
         <div class="col-8 mx-auto">
             <br>
-            <h2>Estadisticas</h2>
+            <h2 id="tituloEst">Estadisticas</h2>
             <br>
             <br>
-            <span>Moda:</span>
+            <span id="iconoMasUsado">Icono más usado:</span>
             <br>
             <br>
-            <span>Media:</span>
+            <span><b>Moda por usuario:</b></span>
+            <div class="ml-4">
+                <ul id="listaUsuariosIcono">
+
+                </ul>
+            </div>
             <br>
             <br>
-            <span>Icono más usado:</span>
+            <span><b>Resumen de iconos:</b></span>
+            <div class="ml-4">
+                <ul id="listaIconosSprint">
+
+                </ul>
+            </div>
+            <br>
+            <br>
+            <span><b>Moda de iconos por día:</b></span>
+            <div class="ml-4">
+                <ul id="listaIconosSprintDia">
+
+                </ul>
+            </div>
+            <br>
+            <br>
+            <span><b>Resumen de iconos por día:</b></span>
+            <div class="ml-4">
+                <ul id="listaIconosSprintDiaResumen">
+
+                </ul>
+            </div>
+            <br>
+            <br>
+            <span><b>Resumen por usuario:</b></span>
+            <div class="ml-4">
+                <ul id="listaIconosUsuarioResumen">
+
+                </ul>
+            </div>
+            <br>
+            <br>
+            <span><b>Resumen por semana:</b></span>
+            <div class="ml-4">
+                <ul id="listaIconosSemanaResumen">
+
+                </ul>
+            </div>
+            <br>
+            <br>
+            <span id="fueraDeFecha">Imputaciones Fuera de fecha:</span>
             <br>
             <br>
             <br>
             <br>
             <input id="atrasE" class="btn btn-primary" type="button" value="Atras">
-            
+
         </div>
-    </div> 
+    </div>
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
 
         <!-- Modal content -->
         <div class="modal-content">
-            <p>Some text in the Modal..</p>
             <!-- Trigger/Open The Modal -->
             <form id="formularioImputar" class="formularioImputar">
                 <div class="row">
@@ -124,6 +179,11 @@
                         <input class="form-check-label" type="radio" id="icon3" name="inlineRadioOptions"
                             value="icon3"><img src="" alt="Meh" id="meh" width="50" height="50">
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha1">Fecha</label>
+                    <input type="date" class="form-control" id="fecha1"></input>
                 </div>
 
                 <div class="form-group">
