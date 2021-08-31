@@ -153,7 +153,7 @@ try {
         if (result.key) {
           resolve(result.key);
         } else {
-          resolve('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');
+          resolve('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');
         }
       });
     });

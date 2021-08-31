@@ -1504,72 +1504,7 @@ function injectEventInButtonShowCalendarEst() {
 function injectEventInButtonImputar() {
     var button = document.getElementById("myBtn");
     button.addEventListener('click', async () => {
-        var tab = document.getElementById('tableMain');
         var imputarValido = true;
-        var arr = [];
-        var n = tab.rows.length;
-        for (col = 1; col < 8; col++) {
-            for (i = 0; i < n; i++) {
-                if (tab.rows[i].cells.length > col) {
-                    arr.push(tab.rows[i].cells[col].innerText);
-                    var imputar = arr.filter(x => x === 'Imputar');
-                    if (imputar.length > 0) {
-                        break;
-                    }
-                }
-            }
-            var imputar2 = arr.filter(x => x === 'Imputar');
-            if (imputar2.length > 0) {
-                break;
-            }
-        }
-
-        if (arr.length > 0) {
-            var diaNombre = arr[0];
-            if (diaNombre === 'Lunes ') {
-                var button = document.getElementById('c1');
-                if (!button.checked) {
-                    imputarValido = false;
-                    alert("Día no valido para imputar");
-                }
-            } else if (diaNombre == 'Martes ') {
-                var button = document.getElementById('c2');
-                if (!button.checked) {
-                    imputarValido = false;
-                    alert("Día no valido para imputar");
-                }
-            } else if (diaNombre == 'Miercoles ') {
-                var button = document.getElementById('c3');
-                if (!button.checked) {
-                    imputarValido = false;
-                    alert("Día no valido para imputar");
-                }
-            } else if (diaNombre == 'Jueves ') {
-                var button = document.getElementById('c4');
-                if (!button.checked) {
-                    imputarValido = false;
-                    alert("Día no valido para imputar");
-                }
-            } else if (diaNombre == 'Viernes ') {
-                var button = document.getElementById('c5');
-                if (!button.checked) {
-                    imputarValido = false;
-                    alert("Día no valido para imputar");
-                }
-            } else if (diaNombre == 'Sabado ') {
-                var button = document.getElementById('c6');
-                if (!button.checked) {
-                    imputarValido = false;
-                    alert("Día no valido para imputar");
-                }
-            } else if (diaNombre == 'Domingo ') {
-                var button = document.getElementById('c7');
-                if (!button.checked) {
-                    imputarValido = false;
-                    alert("Día no valido para imputar");
-                }
-            }
-        }
         if (imputarValido) {
             let icon = document.getElementById("smile");
             icon.src = chrome.runtime.getURL("images/smile-beam-regular.svg");
@@ -1594,142 +1529,157 @@ function injectEventInButtonImputarCancelar() {
 function injectEventInButtonImputarAceptar() {
     var button = document.getElementById("aceptarInputacion");
     button.addEventListener('click', async () => {
-        var icon1 = document.getElementById("icon1");
-        var icon2 = document.getElementById("icon2");
-        var icon3 = document.getElementById("icon3");
-        var user = document.getElementById("icon3");
-        var icon;
-        var textarea1 = document.getElementById("Textarea1");
-        var fechaImpAux = document.getElementById("fecha1");
-        var fechaImp = fechaImpAux.value;
-        var diaSemana;
-
-        if (icon1.checked) {
-            icon = icon1.value;
-        } else if (icon2.checked) {
-            icon = icon2.value;
-        } else {
-            icon = icon3.value;
-        }
-
-        if (fechaImp === "") {
-            var position = new Date().getDay();
-        } else {
-            var position = new Date(fechaImp).getDay();
-        }
-
-        if (position == 1) {
-            diaSemana = 'lunes'
-        } else if (position == 2) {
-            diaSemana = 'martes'
-        } else if (position == 3) {
-            diaSemana = 'miercoles'
-        } else if (position == 4) {
-            diaSemana = 'jueves'
-        } else if (position == 5) {
-            diaSemana = 'viernes'
-        } else if (position == 6) {
-            diaSemana = 'sabado'
-        } else if (position == 0) {
-            diaSemana = 'domingo'
-        }
-
-
         var repoUser = window.location.pathname;
-        chrome.runtime.sendMessage({ command: "getSprint", data: { domain: repoUser } }, (response) => {
-            chrome.runtime.sendMessage({ command: "getUsuarioLogueado", data: { domain: '' } }, (response3) => {
-                if (fechaImp === "") {
-                    var curr = new Date;
-                } else {
-                    var curr = new Date(fechaImp);
-                }
-                var fecha = new Date(curr);
-                var first = fecha.getDate() - fecha.getDay(); // First day is the day of the month - the day of the week
-                var last = first + 6; // last day is the first day + 6
+        chrome.runtime.sendMessage({ command: "getSemana", data: { domain: repoUser } }, (response5) => {
+            var icon1 = document.getElementById("icon1");
+            var icon2 = document.getElementById("icon2");
+            var icon3 = document.getElementById("icon3");
+            var user = document.getElementById("icon3");
+            var icon;
+            var textarea1 = document.getElementById("Textarea1");
+            var fechaImpAux = document.getElementById("fecha1");
+            var fechaImp = fechaImpAux.value;
+            var diaSemana;
 
-                var firstday = new Date(fecha.setDate(first + 1));
-                var lastday = new Date(fecha.setDate(last + 1));
+            if (icon1.checked) {
+                icon = icon1.value;
+            } else if (icon2.checked) {
+                icon = icon2.value;
+            } else {
+                icon = icon3.value;
+            }
 
-                var mes = firstday.getMonth() + 1;
+            if (fechaImp === "") {
+                var position = new Date().getDay();
+            } else {
+                var position = new Date(fechaImp).getDay();
+            }
 
-                var semana1 = "D" + firstday.getDate() + "-" + lastday.getDate() + "M" + mes + "Y" + firstday.getFullYear();
-                var sprint1;
-                if (response) {
-                    for (let key in response) {
-                        if (response[key]) {
-                            if (response[key][semana1]) {
-                                sprint1 = key;
+            if (position == 1) {
+                diaSemana = 'lunes'
+            } else if (position == 2) {
+                diaSemana = 'martes'
+            } else if (position == 3) {
+                diaSemana = 'miercoles'
+            } else if (position == 4) {
+                diaSemana = 'jueves'
+            } else if (position == 5) {
+                diaSemana = 'viernes'
+            } else if (position == 6) {
+                diaSemana = 'sabado'
+            } else if (position == 0) {
+                diaSemana = 'domingo'
+            }
+
+            var repoUser = window.location.pathname;
+            chrome.runtime.sendMessage({ command: "getSprint", data: { domain: repoUser } }, (response) => {
+                chrome.runtime.sendMessage({ command: "getUsuarioLogueado", data: { domain: '' } }, (response3) => {
+                    if (fechaImp === "") {
+                        var curr = new Date;
+                    } else {
+                        var curr = new Date(fechaImp);
+                    }
+                    var fecha = new Date(curr);
+                    var first = fecha.getDate() - fecha.getDay(); // First day is the day of the month - the day of the week
+                    var last = first + 6; // last day is the first day + 6
+
+                    var firstday = new Date(fecha.setDate(first + 1));
+                    var lastday = new Date(fecha.setDate(last + 1));
+
+                    var mes = firstday.getMonth() + 1;
+
+                    var semana1 = "D" + firstday.getDate() + "-" + lastday.getDate() + "M" + mes + "Y" + firstday.getFullYear();
+                    var sprint1;
+                    if (response) {
+                        for (let key in response) {
+                            if (response[key]) {
+                                if (response[key][semana1]) {
+                                    sprint1 = key;
+                                }
                             }
                         }
                     }
-                }
-                chrome.runtime.sendMessage({ command: "guardarImputacion", data: { domain: { usuario: response3.login, icon: icon, textarea: textarea1.value, fecha: fechaImp, diaSemana: diaSemana, domain: repoUser, sprint: sprint1 } } }, (response2) => {
-                    alert("Datos guardados con exito");
-                    var modal = document.getElementById("myModal");
-                    modal.style.display = "none";
+                    var diaActivo = true;
 
-                    var semanaDb;
-                    for (let key in response) {
-                        if (response[key]) {
-                            if (response[key][semana1]) {
-
-                                semanaDb = response[key][semana1];
+                    for (let key in response5) {
+                        if (key === semana1) {
+                            if (!response5[key][diaSemana]) {
+                                diaActivo = false;
                             }
                         }
                     }
+                    if (!diaActivo) {
+                        alert("No se puede imputar en el día seleccionado");
+                    } else {
+                        chrome.runtime.sendMessage({ command: "guardarImputacion", data: { domain: { usuario: response3.login, icon: icon, textarea: textarea1.value, fecha: fechaImp, diaSemana: diaSemana, domain: repoUser, sprint: sprint1 } } }, (response2) => {
+                            alert("Datos guardados con exito");
+                            var modal = document.getElementById("myModal");
+                            modal.style.display = "none";
 
-                    var position5 = new Date().getDay();
+                            var semanaDb;
+                            for (let key in response) {
+                                if (response[key]) {
+                                    if (response[key][semana1]) {
 
-                    var semanaSelect = document.getElementById('selectSemana');
+                                        semanaDb = response[key][semana1];
+                                    }
+                                }
+                            }
 
-                    if (fechaImp === "" || semana1 === semanaSelect.value || semanaSelect.value === "null") {
+                            var position5 = new Date().getDay();
 
-                        if (fechaImp === "") {
-                            var position = new Date().getDay();
-                        } else {
-                            var position = new Date(fechaImp).getDay();
-                        }
+                            var semanaSelect = document.getElementById('selectSemana');
 
-                        if (semanaDb) {
-                            for (let key in semanaDb) {
-                                //key es persona
+                            if (fechaImp === "" || semana1 === semanaSelect.value || semanaSelect.value === "null") {
 
-                                var tab = document.getElementById('tableMain');
-                                var arr = [];
-                                var n = tab.rows.length;
-                                for (i = 1; i < n; i++) {
-                                    if ((response3.login == tab.rows[i].cells[0].innerHTML)) {
-                                        for (colu = 1; colu < 8; colu++) {
-                                            if (position == 0) {
-                                                position = 7;
-                                            }
-                                            if (colu === position) {
-                                                if (icon === 'icon1') {
-                                                    var src = chrome.runtime.getURL("images/smile-beam-regular.svg");
-                                                    tab.rows[i].cells[colu].innerHTML = '<img src="' + src + '" alt="Smile"  width="50" height="50" title="' + textarea1.value + '"></img>';
-                                                } else if (icon === 'icon2') {
-                                                    var src = chrome.runtime.getURL("images/frown-open-regular.svg");
-                                                    tab.rows[i].cells[colu].innerHTML = '<img src="' + src + '" alt="Sad" width="50" height="50" title="' + textarea1.value + '"></img>';
-                                                } else if (icon === 'icon3') {
-                                                    var src = chrome.runtime.getURL("images/meh-regular.svg");
-                                                    tab.rows[i].cells[colu].innerHTML = '<img src="' + src + '" alt="Meh"  width="50" height="50" title="' + textarea1.value + '"></img>';
+                                if (fechaImp === "") {
+                                    var position = new Date().getDay();
+                                } else {
+                                    var position = new Date(fechaImp).getDay();
+                                }
+
+                                if (semanaDb) {
+                                    for (let key in semanaDb) {
+                                        //key es persona
+
+                                        var tab = document.getElementById('tableMain');
+                                        var arr = [];
+                                        var n = tab.rows.length;
+                                        for (i = 1; i < n; i++) {
+                                            if ((response3.login == tab.rows[i].cells[0].innerHTML)) {
+                                                for (colu = 1; colu < 8; colu++) {
+                                                    if (position == 0) {
+                                                        position = 7;
+                                                    }
+                                                    if (colu === position) {
+                                                        if (icon === 'icon1') {
+                                                            var src = chrome.runtime.getURL("images/smile-beam-regular.svg");
+                                                            tab.rows[i].cells[colu].innerHTML = '<img src="' + src + '" alt="Smile"  width="50" height="50" title="' + textarea1.value + '"></img>';
+                                                        } else if (icon === 'icon2') {
+                                                            var src = chrome.runtime.getURL("images/frown-open-regular.svg");
+                                                            tab.rows[i].cells[colu].innerHTML = '<img src="' + src + '" alt="Sad" width="50" height="50" title="' + textarea1.value + '"></img>';
+                                                        } else if (icon === 'icon3') {
+                                                            var src = chrome.runtime.getURL("images/meh-regular.svg");
+                                                            tab.rows[i].cells[colu].innerHTML = '<img src="' + src + '" alt="Meh"  width="50" height="50" title="' + textarea1.value + '"></img>';
+                                                        }
+                                                        //  else {
+                                                        //     tab.rows[i].cells[colu].innerHTML = "<button id='myBtn' class='btn btn-primary'>Imputar</button>";
+                                                        // }
+                                                    }
                                                 }
-                                                //  else {
-                                                //     tab.rows[i].cells[colu].innerHTML = "<button id='myBtn' class='btn btn-primary'>Imputar</button>";
-                                                // }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
+
+                            // var inputarboton = document.getElementById('myBtn');
+                            // inputarboton.style.visibility = 'visible';
+
+
+                            injectEventInButtonImputar();
+                        });
                     }
-
-                    // var inputarboton = document.getElementById('myBtn');
-                    // inputarboton.style.visibility = 'visible';
-
-
-                    injectEventInButtonImputar();
                 });
             });
         });
