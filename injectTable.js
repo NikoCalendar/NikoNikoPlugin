@@ -1780,120 +1780,126 @@ function injectEventInButtonShowCalendar() {
 }
 
 function writeData(domain) {
-    chrome.runtime.sendMessage({ command: "gitTestWithAut", data: { domain: domain } }, (response) => {
-        var div = document.getElementsByClassName("gutter-condensed gutter-lg flex-column flex-md-row d-flex");
-        div[0].remove();
-        var button = document.getElementById("NikoCalendarButton");
-        button.setAttribute("style", "border-bottom-color: #f9826c; font-weight: 600;");
-        fetch(chrome.runtime.getURL('layout.html')).then(r => r.text()).then(html => {
-            var contenido = document.getElementById('repo-content-pjax-container');
-            chrome.runtime.sendMessage({ command: "getUsuarioLogueado", data: { domain: domain } }, (response2) => {
-                chrome.runtime.sendMessage({ command: "getSprint", data: { domain: domain } }, (response3) => {
-                    var curr = new Date; // get current date
-                    var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-                    var last = first + 6; // last day is the first day + 6
+    chrome.runtime.sendMessage({ command: "gitTestWithAut", data: { domain: domain } }, (response5) => {
+        if(response5){
+        chrome.runtime.sendMessage({ command: "gitTestWithAut", data: { domain: domain } }, (response) => {
+            var div = document.getElementsByClassName("gutter-condensed gutter-lg flex-column flex-md-row d-flex");
+            div[0].remove();
+            var button = document.getElementById("NikoCalendarButton");
+            button.setAttribute("style", "border-bottom-color: #f9826c; font-weight: 600;");
+            fetch(chrome.runtime.getURL('layout.html')).then(r => r.text()).then(html => {
+                var contenido = document.getElementById('repo-content-pjax-container');
+                chrome.runtime.sendMessage({ command: "getUsuarioLogueado", data: { domain: domain } }, (response2) => {
+                    chrome.runtime.sendMessage({ command: "getSprint", data: { domain: domain } }, (response3) => {
+                        var curr = new Date; // get current date
+                        var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+                        var last = first + 6; // last day is the first day + 6
 
-                    var firstday = new Date(curr.setDate(first + 1));
-                    var lastday = new Date(curr.setDate(last + 1));
+                        var firstday = new Date(curr.setDate(first + 1));
+                        var lastday = new Date(curr.setDate(last + 1));
 
-                    var position = new Date().getDay();
+                        var position = new Date().getDay();
 
 
-                    response.forEach(element => {
-                        if (element.login == response2.login) {
-                            //<button id='myBtn' class='btn btn-primary'>Imputar</button>
-                            if (position == 1) {
+                        response.forEach(element => {
+                            if (element.login == response2.login) {
+                                //<button id='myBtn' class='btn btn-primary'>Imputar</button>
+                                if (position == 1) {
+                                    var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+                                    html = html.replace('<tbody>', rowUsuario);
+                                } else if (position == 2) {
+                                    var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+                                    html = html.replace('<tbody>', rowUsuario);
+                                } else if (position == 3) {
+                                    var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td></td><td></td><td></td><td></td><td></td></tr>";
+                                    html = html.replace('<tbody>', rowUsuario);
+                                } else if (position == 4) {
+                                    var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td> </td><td></td><td></td><td></td><td></td></tr>";
+                                    html = html.replace('<tbody>', rowUsuario);
+                                } else if (position == 5) {
+                                    var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td> </td><td> </td><td></td><td></td><td></td></tr>";
+                                    html = html.replace('<tbody>', rowUsuario);
+                                } else if (position == 6) {
+                                    var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td> </td><td> </td><td> </td><td></td><td></td></tr>";
+                                    html = html.replace('<tbody>', rowUsuario);
+                                } else if (position == 0) {
+                                    var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td></td></tr>";
+                                    html = html.replace('<tbody>', rowUsuario);
+                                }
+                            } else {
                                 var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
                                 html = html.replace('<tbody>', rowUsuario);
-                            } else if (position == 2) {
-                                var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-                                html = html.replace('<tbody>', rowUsuario);
-                            } else if (position == 3) {
-                                var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td></td><td></td><td></td><td></td><td></td></tr>";
-                                html = html.replace('<tbody>', rowUsuario);
-                            } else if (position == 4) {
-                                var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td> </td><td></td><td></td><td></td><td></td></tr>";
-                                html = html.replace('<tbody>', rowUsuario);
-                            } else if (position == 5) {
-                                var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td> </td><td> </td><td></td><td></td><td></td></tr>";
-                                html = html.replace('<tbody>', rowUsuario);
-                            } else if (position == 6) {
-                                var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td> </td><td> </td><td> </td><td></td><td></td></tr>";
-                                html = html.replace('<tbody>', rowUsuario);
-                            } else if (position == 0) {
-                                var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td></td></tr>";
-                                html = html.replace('<tbody>', rowUsuario);
                             }
-                        } else {
-                            var rowUsuario = "<tbody><tr><td>" + element.login + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-                            html = html.replace('<tbody>', rowUsuario);
-                        }
-                    });
+                        });
 
-                    var mes = firstday.getMonth() + 1;
+                        var mes = firstday.getMonth() + 1;
 
-                    var mes2 = lastday.getMonth() + 1;
+                        var mes2 = lastday.getMonth() + 1;
 
-                    var semana = "<p id='semana' class='semana'>Semana: " + firstday.getDate() + "/" + mes + "/" + firstday.getFullYear() + " a " + lastday.getDate() + "/" + mes2 + "/" + lastday.getFullYear() + "</p>";
-                    html = html.replace('<p id="semana" class="semana"></p>', semana);
+                        var semana = "<p id='semana' class='semana'>Semana: " + firstday.getDate() + "/" + mes + "/" + firstday.getFullYear() + " a " + lastday.getDate() + "/" + mes2 + "/" + lastday.getFullYear() + "</p>";
+                        html = html.replace('<p id="semana" class="semana"></p>', semana);
 
-                    var curr = new Date;
-                    var fecha = new Date(curr);
-                    var first = fecha.getDate() - fecha.getDay(); // First day is the day of the month - the day of the week
-                    var last = first + 6; // last day is the first day + 6
+                        var curr = new Date;
+                        var fecha = new Date(curr);
+                        var first = fecha.getDate() - fecha.getDay(); // First day is the day of the month - the day of the week
+                        var last = first + 6; // last day is the first day + 6
 
-                    var firstday = new Date(fecha.setDate(first + 1));
-                    var lastday = new Date(fecha.setDate(last + 1));
+                        var firstday = new Date(fecha.setDate(first + 1));
+                        var lastday = new Date(fecha.setDate(last + 1));
 
-                    var mes = firstday.getMonth() + 1;
+                        var mes = firstday.getMonth() + 1;
 
-                    var semana1 = "D" + firstday.getDate() + "-" + lastday.getDate() + "M" + mes + "Y" + firstday.getFullYear();
+                        var semana1 = "D" + firstday.getDate() + "-" + lastday.getDate() + "M" + mes + "Y" + firstday.getFullYear();
 
-                    var sprintOption = "<option value='null'>Sprint</option>";
+                        var sprintOption = "<option value='null'>Sprint</option>";
 
-                    var sprint1;
-                    if (response3) {
-                        for (let key in response3) {
-                            if (response3[key]) {
+                        var sprint1;
+                        if (response3) {
+                            for (let key in response3) {
+                                if (response3[key]) {
 
-                                sprintOption = sprintOption + '<option value="' + key + '">' + key + '</option>';
+                                    sprintOption = sprintOption + '<option value="' + key + '">' + key + '</option>';
 
-                                if (response3[key][semana1]) {
-                                    sprint1 = key;
+                                    if (response3[key][semana1]) {
+                                        sprint1 = key;
+                                    }
                                 }
                             }
                         }
-                    }
-                    var sprint = "<p id='sprint' class='sprint'>Sprint: " + sprint1 + "</p>"
-                    html = html.replace('<p id="sprint" class="sprint"></p>', sprint);
-                    html = html.replace('<option value="null">Sprint</option>', sprintOption);
+                        var sprint = "<p id='sprint' class='sprint'>Sprint: " + sprint1 + "</p>"
+                        html = html.replace('<p id="sprint" class="sprint"></p>', sprint);
+                        html = html.replace('<option value="null">Sprint</option>', sprintOption);
 
-                    contenido.insertAdjacentHTML('beforeend', html);
+                        contenido.insertAdjacentHTML('beforeend', html);
 
-                    injectEventInButtonShowForm();
-                    injectEventInButtonSubmit();
-                    injectEventInButtonShowCalendar();
-                    injectEventInButtonImputarCancelar();
-                    injectEventInButtonImputar();
-                    injectEventInButtonImputarAceptar();
-                    injectEventInButtonDia1();
-                    injectEventInButtonDia2();
-                    injectEventInButtonDia3();
-                    injectEventInButtonDia4();
-                    injectEventInButtonDia5();
-                    injectEventInButtonDia6();
-                    injectEventInButtonDia7();
-                    injectEventInButtonShowCalendarEst();
-                    injectEventInButtonShowEst();
-                    injectEventInSelectSprint();
-                    injectEventInSelectSemana();
-                    injectEventOnloadTable();
-                    injectEventInButtonShowEstGlobal();
+                        injectEventInButtonShowForm();
+                        injectEventInButtonSubmit();
+                        injectEventInButtonShowCalendar();
+                        injectEventInButtonImputarCancelar();
+                        injectEventInButtonImputar();
+                        injectEventInButtonImputarAceptar();
+                        injectEventInButtonDia1();
+                        injectEventInButtonDia2();
+                        injectEventInButtonDia3();
+                        injectEventInButtonDia4();
+                        injectEventInButtonDia5();
+                        injectEventInButtonDia6();
+                        injectEventInButtonDia7();
+                        injectEventInButtonShowCalendarEst();
+                        injectEventInButtonShowEst();
+                        injectEventInSelectSprint();
+                        injectEventInSelectSemana();
+                        injectEventOnloadTable();
+                        injectEventInButtonShowEstGlobal();
+                    });
                 });
             });
+            var selectedButton = document.getElementsByClassName("UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item selected");
+            selectedButton[0].setAttribute("style", "border-bottom-color: transparent; font-weight: 400;");
+            return response;
         });
-        var selectedButton = document.getElementsByClassName("UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item selected");
-        selectedButton[0].setAttribute("style", "border-bottom-color: transparent; font-weight: 400;");
-        return response;
+    } else {
+        alert("Debe configurar su Key de GitHub");
+    }
     });
 }

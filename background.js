@@ -887,21 +887,24 @@ try {
     }).then(res => res.json())
       .catch(error => console.error('Error:', error))
       .then(response => respuesta = response);
-
-    respuesta.forEach(element => {
-      var usuario = element.login;
-      var repositorio = domain.split("/");
-      firebase.database().ref("repositorios/" + repositorio[repositorio.length - 1] + "/" + usuario).set({
-        activo: true
-      }
-      );
-      firebase.database().ref("usuarios/" + usuario).set(
-        {
-          idGit: element.id
+    if (respuesta.message !== "Must have push access to view repository collaborators.") {
+      respuesta.forEach(element => {
+        var usuario = element.login;
+        var repositorio = domain.split("/");
+        firebase.database().ref("repositorios/" + repositorio[repositorio.length - 1] + "/" + usuario).set({
+          activo: true
         }
-      );
-    });
-    return respuesta;
+        );
+        firebase.database().ref("usuarios/" + usuario).set(
+          {
+            idGit: element.id
+          }
+        );
+      });
+      return respuesta;
+    } else {
+      return false;
+    }
   }
 
   async function guardarSprintYSemanas(url, datos) {
