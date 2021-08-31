@@ -153,7 +153,7 @@ try {
         if (result.key) {
           resolve(result.key);
         } else {
-          resolve('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');
+          resolve('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');
         }
       });
     });
@@ -887,7 +887,7 @@ try {
     }).then(res => res.json())
       .catch(error => console.error('Error:', error))
       .then(response => respuesta = response);
-    if (respuesta.message !== "Must have push access to view repository collaborators.") {
+    if (respuesta.message !== "Must have push access to view repository collaborators." || respuesta.message !== "Not Found") {
       respuesta.forEach(element => {
         var usuario = element.login;
         var repositorio = domain.split("/");
